@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package chore.v1;
+
+option go_package = "github.com/amosehiguese/go-chore/proto/v1/chore_v1";
+
+message Chore {
+    bool complete = 1;
+    string description = 2;
+}
+
+message Chores {
+    repeated Chore chores = 1;
+}
