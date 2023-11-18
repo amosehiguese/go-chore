@@ -9,8 +9,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/amosehiguese/go-chore/housework"
-	storage "github.com/amosehiguese/go-chore/json"
+	pb "github.com/amosehiguese/go-chore/proto/v1"
+
+	storage "github.com/amosehiguese/go-chore/protobuf"
 )
 
 var dataFile string
@@ -30,9 +31,9 @@ func init() {
 	}
 }
 
-func load() ([]*housework.Chore, error){
+func load() ([]*pb.Chore, error){
 	if _, err := os.Stat(dataFile); os.IsNotExist(err) {
-		return make([]*housework.Chore, 0), nil
+		return make([]*pb.Chore, 0), nil
 	}
 
 	df, err := os.Open(dataFile)
@@ -49,7 +50,7 @@ func load() ([]*housework.Chore, error){
 	return storage.Load(df)
 }
 
-func flush(chores []*housework.Chore) error {
+func flush(chores []*pb.Chore) error {
 	df, err := os.Create(dataFile)
 	if err != nil {
 		return err
@@ -95,7 +96,7 @@ func add(s string) error {
 
 	for _, chore := range strings.Split(s, ",") {
 		if desc := strings.TrimSpace(chore); desc != "" {
-			chores = append(chores, &housework.Chore{
+			chores = append(chores, &pb.Chore{
 				Description: desc,
 			})
 		}
